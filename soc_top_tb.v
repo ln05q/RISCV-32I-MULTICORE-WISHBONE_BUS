@@ -17,6 +17,10 @@ module soc_top_tb;
   wire [31:0] pc                                  [0:3];
   wire [31:0] instr                               [0:3];
   wire [31:0] data                                [0:3];
+  wire [ 6:0] HEX0;
+  wire [ 6:0] HEX1;
+  wire [ 6:0] HEX2;
+  wire [ 6:0] HEX3;
 
 
   // 2. Khởi tạo Module SOC TOP (UUT - Unit Under Test)
@@ -27,6 +31,10 @@ module soc_top_tb;
       .led_matrix_out(led_matrix_out),
       .uart_tx(uart_tx),
       .uart_rx(uart_rx),
+      .HEX0(HEX0),
+      .HEX1(HEX1),
+      .HEX2(HEX2),
+      .HEX3(HEX3),
       //    .dbg_rx_data(dbg_rx_data),
       //   .dbg_tx_data(dbg_tx_data),
       // TESTING

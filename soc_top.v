@@ -7,7 +7,11 @@ module soc_top (
     // Peripherals Output
     output wire [31:0] timer_debug_val,
     output wire [31:0] led_matrix_out,
-    inout  wire [31:0] gpio_out,
+    //    inout  wire [31:0] gpio_out,
+    output      [ 6:0] HEX0,
+    HEX1,
+    HEX2,
+    HEX3,
     output wire        uart_tx,
     input  wire        uart_rx,
 
@@ -163,9 +167,11 @@ module soc_top (
       .s_ack_i(s_ack),
 
       // Thứ tự mảng: {S4: UART, S3: GPIO, S2: TIMER, S1: LED, S0: RAM}
+      // Thứ tự mảng: {S4: UART, S3: LED 7 SEGMENT, S2: TIMER, S1: LED, S0: RAM}
       .device_base_addr({
         32'h4000_0000,  // S4: UART
-        32'h3000_0000,  // S3: GPIO
+        //        32'h3000_0000,  // S3: GPIO
+        32'h3000_0000,  // S3: LED 7 SEGMENT
         32'h2000_0000,  // S2: TIMER
         32'h1000_0000,  // S1: LED_MATRIX
         32'h0000_0000  // S0: RAM
@@ -231,7 +237,7 @@ module soc_top (
       .timer_value(timer_debug_val)
   );
 
-
+  /*
   // S3: GPIO (0x3000_0000)
   wb_gpio_top gpio_inst (
       .clk_i(clk),
@@ -246,7 +252,26 @@ module soc_top (
       .wb_ack_o(s_ack[3]),
       .gpio_pins(gpio_out)
   );
+*/
 
+  // S3: GPIO (0x3000_0000)
+
+  wb_led_7seg_top led_7_segment_inst (
+      .clk_i(clk),
+      .rst_i(rst),
+      .wb_adr_i(s_adr),
+      .wb_dat_i(s_dat_w),
+      .wb_dat_o(s_dat_r[3*32+:32]),
+      .wb_we_i(s_we),
+      .wb_sel_i(s_sel),
+      .wb_stb_i(s_stb[3]),
+      .wb_cyc_i(s_cyc[3]),
+      .wb_ack_o(s_ack[3]),
+      .hex0(HEX0),
+      .hex1(HEX1),
+      .hex2(HEX2),
+      .hex3(HEX3)
+  );
 
   // S4: UART (0x4000_0000)
   wb_uart_top uart_inst (
