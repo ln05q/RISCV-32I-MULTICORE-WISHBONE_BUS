@@ -15,7 +15,7 @@ module led_matrix (
 
   // Logic Ghi (Write)
   always @(posedge clk) begin
-    if (rst) begin
+    if (!rst) begin
       ctrl_reg <= 32'h0;
       data_reg <= 32'h0;
     end else if (write_en) begin

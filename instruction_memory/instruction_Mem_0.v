@@ -8,7 +8,7 @@ module instruction_Mem_0 (
     $readmemb(
         //"C:/Users/Admin/vivado_project/source/Testing_project_wb_soc/ram_slave_0/prog_core0.txt",
         //i_mem);
-        "C:/Users/Admin/vivado_project/source/doan_soc/led_7segment_slave_3/prog_led7.txt", i_mem);
+        "C:/Users/Admin/quartus_project/source/doan_soc/led_7segment_slave_3/prog_led7.txt", i_mem);
   end
 
   always @(*) begin

@@ -24,8 +24,8 @@ module wishbone_slave_adapter_gpio (
   reg [1:0] state, next_state;
 
   // FSM Logic
-  always @(posedge clk_i or posedge rst_i) begin
-    if (rst_i) state <= STATE_IDLE;
+  always @(posedge clk_i or negedge rst_i) begin
+    if (!rst_i) state <= STATE_IDLE;
     else state <= next_state;
   end
 

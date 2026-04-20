@@ -13,7 +13,7 @@ module rf_32_32 (
   reg [31:0] rf[31:0];
   integer i;
   always @(posedge clk or negedge rst) begin
-    if (rst) begin
+    if (!rst) begin
       rf[0]  <= 32'd0;
       rf[1]  <= 32'd0;
       rf[2]  <= 32'd0;

@@ -39,7 +39,7 @@ module wb_interconnect_4m #(
   reg       bus_busy;  // Bus đang trong một giao dịch
 
   always @(posedge clk_i) begin
-    if (rst_i) begin
+    if (!rst_i) begin
       master_sel <= 2'b00;
       bus_busy   <= 1'b0;
     end else begin

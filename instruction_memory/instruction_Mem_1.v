@@ -5,7 +5,7 @@ module instruction_Mem_1 (
   reg [31:0] i_mem[63:0];
 
   initial begin
-    $readmemb("C:/Users/Admin/vivado_project/source/doan_soc/led_slave_1/prog_core1.txt", i_mem);
+    $readmemb("C:/Users/Admin/quartus_project/source/doan_soc/led_slave_1/prog_core1.txt", i_mem);
   end
 
   always @(*) begin

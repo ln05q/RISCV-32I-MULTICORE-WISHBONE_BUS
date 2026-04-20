@@ -28,7 +28,7 @@ module ram #(
 
   // --- RAM LOGIC ---
   always @(posedge clk) begin
-    if (rst) begin
+    if (!rst) begin
       // --- RESET OPERATION ---
       for (i = 0; i < MEM_DEPTH; i = i + 1) begin
         mem[i] <= 32'b0;

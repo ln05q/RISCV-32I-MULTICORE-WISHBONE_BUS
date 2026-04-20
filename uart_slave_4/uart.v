@@ -56,7 +56,7 @@ module uart (
 
   // 3. Logic Ä‘iá»?u khiá»ƒn (Giao tiáº¿p vá»›i RISC-V)
   always @(posedge clk) begin
-    if (rst) begin
+    if (!rst) begin
       tx_dv <= 1'b0;
       r_rx_data_ready <= 1'b0;
     end else begin

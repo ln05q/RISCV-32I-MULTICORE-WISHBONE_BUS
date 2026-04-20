@@ -5,7 +5,7 @@ module instruction_Mem_3 (
   reg [31:0] i_mem[63:0];
 
   initial begin
-    $readmemb("C:/Users/Admin/vivado_project/source/doan_soc/uart_slave_4/prog_core3.txt", i_mem);
+    $readmemb("C:/Users/Admin/quartus_project/source/doan_soc/uart_slave_4/prog_core3.txt", i_mem);
   end
 
 

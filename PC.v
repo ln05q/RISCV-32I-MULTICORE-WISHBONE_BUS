@@ -7,7 +7,7 @@ module PC (
 );
 
   always @(posedge clk or negedge rst) begin
-    if (rst) addr_out <= 32'b0;
+    if (!rst) addr_out <= 32'b0;
     else if (en) addr_out <= addr_in;
   end
 endmodule

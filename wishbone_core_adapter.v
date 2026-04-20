@@ -46,7 +46,7 @@ module wishbone_core_adapter (
 
   // --- 1. Thanh ghi trang thai (Sequential) ---
   always @(posedge clk_i) begin
-    if (rst_i) begin
+    if (!rst_i) begin
       state       <= IDLE;
       is_write_op <= 1'b0;
     end else begin
@@ -112,7 +112,7 @@ module wishbone_core_adapter (
   // --- 4. Duong du lieu (Sequential) ---
   // Chi cap nhat dia chi va du lieu khi bat dau giao dich moi
   always @(posedge clk_i) begin
-    if (rst_i) begin
+    if (!rst_i) begin
       wb_addr_o <= 32'd0;
       wb_data_o <= 32'd0;
       wb_sel_o  <= 4'b0000;

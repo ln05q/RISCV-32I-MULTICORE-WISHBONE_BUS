@@ -1,22 +1,22 @@
 `timescale 1ns / 1ps
 
 module soc_top (
-    input wire clk,
-    input wire rst,
+    input wire CLOCK_50,  // clk
+    input wire [0:0] KEY,  // RESET (low level)
 
     // Peripherals Output
     output wire [31:0] timer_debug_val,
-    output wire [31:0] led_matrix_out,
+    output wire [17:0] LEDR,
     //    inout  wire [31:0] gpio_out,
     output      [ 6:0] HEX0,
     HEX1,
     HEX2,
     HEX3,
-    output wire        uart_tx,
-    input  wire        uart_rx,
+    output wire        UART_TXD,
+    input  wire        UART_RXD
 
     // MONITOR DEBUG
-
+    /*
     output wire [31:0] dbg_pc_0,
     dbg_pc_1,
     dbg_pc_2,
@@ -29,9 +29,7 @@ module soc_top (
     dbg_wb_data_1,
     dbg_wb_data_2,
     dbg_wb_data_3
-    //    output wire [ 7:0] dbg_rx_data,
-    //   output wire [ 7:0] dbg_tx_data
-
+*/
 );
 
   // -------------------------------------------------------------------------
@@ -70,8 +68,8 @@ module soc_top (
   // -------------------------------------------------------------------------
 
   wb_core_top_0 core0 (
-      .clk(clk),
-      .rst(rst),
+      .clk(CLOCK_50),
+      .rst(KEY[0]),
       .wbm_adr_o(m_adr[0]),
       .wbm_dat_o(m_dat_w[0]),
       .wbm_dat_i(m_dat_r[0]),
@@ -79,16 +77,18 @@ module soc_top (
       .wbm_sel_o(m_sel[0]),
       .wbm_stb_o(m_stb[0]),
       .wbm_cyc_o(m_cyc[0]),
-      .wbm_ack_i(m_ack[0]),
+      .wbm_ack_i(m_ack[0])
+      /*
       .dbg_pc(dbg_pc_0),
       .dbg_instr(dbg_instr_0),
       .dbg_wb_data(dbg_wb_data_0)
+      */
   );
 
 
   wb_core_top_1 core1 (
-      .clk(clk),
-      .rst(rst),
+      .clk(CLOCK_50),
+      .rst(KEY[0]),
       .wbm_adr_o(m_adr[1]),
       .wbm_dat_o(m_dat_w[1]),
       .wbm_dat_i(m_dat_r[1]),
@@ -96,15 +96,17 @@ module soc_top (
       .wbm_sel_o(m_sel[1]),
       .wbm_stb_o(m_stb[1]),
       .wbm_cyc_o(m_cyc[1]),
-      .wbm_ack_i(m_ack[1]),
+      .wbm_ack_i(m_ack[1])
+      /*
       .dbg_pc(dbg_pc_1),
       .dbg_instr(dbg_instr_1),
       .dbg_wb_data(dbg_wb_data_1)
+      */
   );
 
   wb_core_top_2 core2 (
-      .clk(clk),
-      .rst(rst),
+      .clk(CLOCK_50),
+      .rst(KEY[0]),
       .wbm_adr_o(m_adr[2]),
       .wbm_dat_o(m_dat_w[2]),
       .wbm_dat_i(m_dat_r[2]),
@@ -112,16 +114,18 @@ module soc_top (
       .wbm_sel_o(m_sel[2]),
       .wbm_stb_o(m_stb[2]),
       .wbm_cyc_o(m_cyc[2]),
-      .wbm_ack_i(m_ack[2]),
+      .wbm_ack_i(m_ack[2])
+      /*
       .dbg_pc(dbg_pc_2),
       .dbg_instr(dbg_instr_2),
       .dbg_wb_data(dbg_wb_data_2)
+      */
   );
 
 
   wb_core_top_3 core3 (
-      .clk(clk),
-      .rst(rst),
+      .clk(CLOCK_50),
+      .rst(KEY[0]),
       .wbm_adr_o(m_adr[3]),
       .wbm_dat_o(m_dat_w[3]),
       .wbm_dat_i(m_dat_r[3]),
@@ -129,10 +133,12 @@ module soc_top (
       .wbm_sel_o(m_sel[3]),
       .wbm_stb_o(m_stb[3]),
       .wbm_cyc_o(m_cyc[3]),
-      .wbm_ack_i(m_ack[3]),
+      .wbm_ack_i(m_ack[3])
+      /*
       .dbg_pc(dbg_pc_3),
       .dbg_instr(dbg_instr_3),
       .dbg_wb_data(dbg_wb_data_3)
+      */
   );
 
   assign m_dat_r[0] = all_m_dat_r[0*32+:32];
@@ -147,8 +153,8 @@ module soc_top (
       .NUM_MASTERS(NUM_MASTERS),
       .NUM_DEVICES(NUM_DEVICES)
   ) bus_matrix (
-      .clk_i  (clk),
-      .rst_i  (rst),
+      .clk_i  (CLOCK_50),
+      .rst_i  (KEY[0]),
       .m_adr_i(all_m_adr),
       .m_dat_i(all_m_dat_w),
       .m_dat_o(all_m_dat_r),
@@ -195,8 +201,8 @@ module soc_top (
   wb_ram_top #(
       .MEM_SIZE(1024)
   ) ram_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[0*32+:32]),
@@ -209,8 +215,8 @@ module soc_top (
 
   // S1: LED MATRIX (0x1000_0000)
   wb_led_matrix_top led_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[1*32+:32]),
@@ -219,13 +225,13 @@ module soc_top (
       .wb_stb_i(s_stb[1]),
       .wb_cyc_i(s_cyc[1]),
       .wb_ack_o(s_ack[1]),
-      .led_pins(led_matrix_out)
+      .led_pins(LEDR)
   );
 
   // S2: TIMER (0x2000_0000)
   wb_timer_top timer_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[2*32+:32]),
@@ -240,8 +246,8 @@ module soc_top (
   /*
   // S3: GPIO (0x3000_0000)
   wb_gpio_top gpio_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[3*32+:32]),
@@ -257,8 +263,8 @@ module soc_top (
   // S3: GPIO (0x3000_0000)
 
   wb_led_7seg_top led_7_segment_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[3*32+:32]),
@@ -275,8 +281,8 @@ module soc_top (
 
   // S4: UART (0x4000_0000)
   wb_uart_top uart_inst (
-      .clk_i(clk),
-      .rst_i(rst),
+      .clk_i(CLOCK_50),
+      .rst_i(KEY[0]),
       .wb_adr_i(s_adr),
       .wb_dat_i(s_dat_w),
       .wb_dat_o(s_dat_r[4*32+:32]),
@@ -285,8 +291,8 @@ module soc_top (
       .wb_stb_i(s_stb[4]),
       .wb_cyc_i(s_cyc[4]),
       .wb_ack_o(s_ack[4]),
-      .uart_tx(uart_tx),
-      .uart_rx(uart_rx)
+      .uart_tx(UART_TXD),
+      .uart_rx(UART_RXD)
       //      .dbg_rx_data(dbg_rx_data),
       //     .dbg_tx_data(dbg_tx_data)
   );

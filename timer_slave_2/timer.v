@@ -25,7 +25,7 @@ module timer (
 
   // Logic Ghi & Ä?áº¿m (Sequential)
   always @(posedge clk) begin
-    if (rst) begin
+    if (!rst) begin
       ctrl   <= 32'h0;
       period <= 32'hFFFF_FFFF;
       value  <= 32'h0;

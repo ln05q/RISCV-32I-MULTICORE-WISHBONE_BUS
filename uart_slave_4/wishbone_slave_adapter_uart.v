@@ -28,7 +28,7 @@ module wishbone_slave_adapter_uart (
   reg [1:0] state, next_state;
 
   always @(posedge clk_i) begin
-    if (rst_i) state <= STATE_IDLE;
+    if (!rst_i) state <= STATE_IDLE;
     else state <= next_state;
   end
 

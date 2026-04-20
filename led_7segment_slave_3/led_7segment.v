@@ -15,8 +15,8 @@ module led_7segment (
   reg [3:0] r_hex0, r_hex1, r_hex2, r_hex3;
 
   // --- 1. Ghi dữ liệu dựa trên địa chỉ (Offset) ---
-  always @(posedge clk or posedge rst) begin
-    if (rst) begin
+  always @(posedge clk or negedge rst) begin
+    if (!rst) begin
       r_hex0 <= 4'h0;
       r_hex1 <= 4'h0;
       r_hex2 <= 4'h0;
