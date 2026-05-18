@@ -5,15 +5,20 @@ module soc_top (
     input wire [0:0] KEY,  // RESET (low level)
 
     // Peripherals Output
-    output wire [31:0] timer_debug_val,
     output wire [17:0] LEDR,
     //    inout  wire [31:0] gpio_out,
     output      [ 6:0] HEX0,
     HEX1,
     HEX2,
     HEX3,
+    HEX4,
+    HEX5,
+    HEX6,  // FOR TIMER - UNIT
+    HEX7,  // FOR TIMER - TENS
     output wire        UART_TXD,
     input  wire        UART_RXD
+
+
 
     // MONITOR DEBUG
     /*
@@ -32,6 +37,31 @@ module soc_top (
 */
 );
 
+  // -------------------------------------------------------------------------
+  // FOR DISPLAY TIMER PURPOSE
+  // Ví dụ nối dây
+  wire [31:0] timer_debug_val;
+  timer_hex_display display_unit (
+      .timer_input(timer_debug_val),  // Nối với thanh ghi đếm của Timer
+      .HEX6       (HEX6),             // Nối với chân vật lý HEX0 trên Kit
+      .HEX7       (HEX7)              // Nối với chân vật lý HEX1 trên Kit
+  );
+
+
+  // FOR DISPLAY UART PURPOSE
+  wire [7:0] dbg_rx_data;
+  uart_hex_display uart_display_low (
+      .bin(dbg_rx_data[3:0]),
+      .seg(HEX4)
+  );
+
+
+  uart_hex_display uart_display_high (
+      .bin(dbg_rx_data[7:4]),
+      .seg(HEX5)
+  );
+
+  // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
   // 1. Cấu hình Tham số (Chỉnh sửa số lượng Slave tại đây)
   // -------------------------------------------------------------------------
@@ -292,8 +322,8 @@ module soc_top (
       .wb_cyc_i(s_cyc[4]),
       .wb_ack_o(s_ack[4]),
       .uart_tx(UART_TXD),
-      .uart_rx(UART_RXD)
-      //      .dbg_rx_data(dbg_rx_data),
+      .uart_rx(UART_RXD),
+      .dbg_rx_data(dbg_rx_data)
       //     .dbg_tx_data(dbg_tx_data)
   );
 
