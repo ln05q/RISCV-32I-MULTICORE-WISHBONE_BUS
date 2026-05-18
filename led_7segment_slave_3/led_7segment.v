@@ -44,7 +44,12 @@ module led_7segment (
       4'h7: decode = 7'b1111000;
       4'h8: decode = 7'b0000000;
       4'h9: decode = 7'b0010000;
-      default: decode = 7'b1111111;  // Tắt hết
+      4'hA: decode = 7'b0001000;  // A
+      4'hB: decode = 7'b0000011;  // b (hiển thị chữ thường để phân biệt với 8)
+      4'hC: decode = 7'b1000110;  // C
+      4'hD: decode = 7'b0100001;  // d (hiển thị chữ thường để phân biệt với 0)
+      4'hE: decode = 7'b0000110;  // E
+      4'hF: decode = 7'b0001110;  // F     default: decode = 7'b1111111;  // Tắt hết
     endcase
   endfunction
 
