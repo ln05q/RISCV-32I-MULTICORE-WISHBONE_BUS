@@ -29,20 +29,25 @@ module timer (
       ctrl   <= 32'h0;
       period <= 32'hFFFF_FFFF;
       value  <= 32'h0;
+      //     value  <= 32'h44;
     end else begin
       // 1. Xá»­ lÃ½ ghi tá»« Bus
       if (we) begin
         if (addr == 2'b00) ctrl <= din;
         if (addr == 2'b01) period <= din;
+        if (addr == 2'b10) value <= din;  // QUAN TRỌNG: Phải có dòng này
       end
 
+      //      value <= 32'h44;
       // 2. Logic Ä‘áº¿m cá»§a Timer
+
       if (ctrl[1]) begin  // Bit Reset counter
         value <= 32'h0;
       end else if (ctrl[0]) begin  // Bit Enable
         if (value >= period) value <= 32'h0;
         else value <= value + 1;
       end
+
     end
   end
 endmodule
