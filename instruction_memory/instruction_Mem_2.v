@@ -5,7 +5,8 @@ module instruction_Mem_2 (
   reg [31:0] i_mem[63:0];
 
   initial begin
-    $readmemb("C:/Users/Admin/quartus_project/source/doan_soc/timer_slave_2/prog_core2.txt", i_mem);
+    $readmemb("C:/Users/Admin/quartus_project/source/doan_soc/timer_slave_2/prog_core2_50Mhz.txt",
+              i_mem);
   end
 
   always @(*) begin
