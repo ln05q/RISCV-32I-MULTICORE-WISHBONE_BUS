@@ -18,7 +18,9 @@ module uart (
 
     // ChÃ¢n váº­t lÃ½ ra bÃªn ngoÃ i
     output wire uart_tx,
-    input  wire uart_rx
+    input  wire uart_rx,
+
+    output wire [7:0] uart_rx_raw_data
 );
 
   // TÃ­n hiá»‡u trung gian káº¿t ná»‘i vá»›i module báº¡n sÆ°u táº§m
@@ -28,7 +30,8 @@ module uart (
   wire [7:0] rx_byte;
   reg        tx_dv;
 
-    localparam clk_per_bit = 4; // for testing 
+//    localparam clk_per_bit = 4; // for testing 
+    localparam clk_per_bit = 5208; // baud rate: 9600
 
   // 1. Module Transmitter (tá»« source cá»§a báº¡n)
   uart_transmitter #(
@@ -85,5 +88,6 @@ module uart (
       default: read_data = 32'h0;
     endcase
   end
-
+    
+  assign uart_rx_raw_data = rx_byte;
 endmodule
